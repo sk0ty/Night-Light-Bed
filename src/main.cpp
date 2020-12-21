@@ -165,7 +165,7 @@ void loop() // alpha finished !
         check_brightness();
 
         i = 0;
-        while (walking == false && i <= (Ausmach_zeit/polling_rate) && night_modus == true || m >= auto_shutdown/polling_rate) 
+        while (walking == false && i <= (Ausmach_zeit/polling_rate) && (night_modus == true || m >= auto_shutdown/polling_rate) ) 
         {
           m = m + 1;
 
