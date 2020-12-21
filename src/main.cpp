@@ -5,9 +5,9 @@ bool state; // state = false = led aus
 bool night_modus;
 bool schnelles_an_aus; // default = false. Falls Led-Bett an ist, 8s liegt => licht wieder aus, dann instant wieder aufsteht, wird der counter von 8s uebersprungen und die led geht auch sofort wieder an.
 
-const int sensor = 2;
-const int Anmach_zeit = 500;   // zuletzt 400
-const int Ausmach_zeit = 12000; //zuletzt 8000, und war an sich immer zu kurz
+const int sensor = 2;               // alufolie druckplatte
+const int Anmach_zeit = 500;        // zuletzt 400
+const int Ausmach_zeit = 12000;     //zuletzt 8000, und war an sich immer zu kurz
 const int minimum_brightness = 128; // irgendwas zwischen 120-130
 const float e = 2.718;
 const long auto_shutdown = 900000; // 900s auto_shutdown, 900*1000ms
@@ -34,7 +34,7 @@ void led_rise()
     delay(led_rise_fall_time / 256);
   }
   state = false;
- // Serial.println("<< AN >>");
+  // Serial.println("<< AN >>");
 }
 
 void led_fall()
@@ -46,7 +46,7 @@ void led_fall()
     delay(led_rise_fall_time / 256);
   }
   state = true;
- // Serial.println("<< AUS >>");
+  // Serial.println("<< AUS >>");
 }
 
 void led_rise_e()
@@ -58,24 +58,22 @@ void led_rise_e()
     delay(led_rise_fall_time / 256);
   }
   analogWrite(led_OUT, 255);
-  
 
   state = false;
- // Serial.println("<< AN >>");
+  // Serial.println("<< AN >>");
 }
 
 void led_fall_e()
 {
   for (int n = 255; n >= 0; n--)
   {
-    analogWrite(led_OUT, 255 * pow(e, (-n/70))); // 255*e^(-n/70)
+    analogWrite(led_OUT, 255 * pow(e, (-n / 70))); // 255*e^(-n/70)
     delay(led_rise_fall_time / 256);
   }
   analogWrite(led_OUT, 0);
-  
 
   state = true;
- // Serial.println("<< AUS >>");
+  // Serial.println("<< AUS >>");
 }
 
 void check_brightness()
@@ -106,7 +104,6 @@ void setup()
   schnelles_an_aus = false;
 }
 
-
 void loop() // alpha finished !
 {
   check_brightness();
@@ -118,8 +115,8 @@ void loop() // alpha finished !
     schnelles_an_aus = false;
   }
 
-
-  if (schnelles_an_aus == true) { // Dieser wird den fall fixen, falls hinlegen und in led_fall wieder aufstehen nix passiert. Weil er dann nicht in die                              //untere if-Bedingung gehen würde, weil walking=true ist. 
+  if (schnelles_an_aus == true)
+  { // Dieser wird den fall fixen, falls hinlegen und in led_fall wieder aufstehen nix passiert. Weil er dann nicht in die                              //untere if-Bedingung gehen würde, weil walking=true ist.
     walking = false;
   }
 
@@ -137,13 +134,13 @@ void loop() // alpha finished !
     {
       Serial.println("Ueberpruefe ob anmachen");
       i = 0;
-      while (i <= Anmach_zeit/polling_rate && night_modus == true) // Erst wenn i>19 ist oder night_modus = false ist, breaken
+      while (i <= Anmach_zeit / polling_rate && night_modus == true) // Erst wenn i>19 ist oder night_modus = false ist, breaken
       {
         walking = digitalRead(sensor);
         check_brightness();
         i = 0;
         delay(polling_rate);
-        while (walking == true && night_modus == true && i <= Anmach_zeit/polling_rate)
+        while (walking == true && night_modus == true && i <= Anmach_zeit / polling_rate)
         {
           walking = digitalRead(sensor);
           check_brightness();
@@ -152,7 +149,7 @@ void loop() // alpha finished !
         }
       }
 
-      if (i >= Anmach_zeit/polling_rate && night_modus == true) //mindestzeit von 500ms überschritten => Licht an
+      if (i >= Anmach_zeit / polling_rate && night_modus == true) //mindestzeit von 500ms überschritten => Licht an
       {
         led_rise(); // dann gehts an
         schnelles_an_aus = true;
@@ -165,7 +162,7 @@ void loop() // alpha finished !
         check_brightness();
 
         i = 0;
-        while (walking == false && i <= (Ausmach_zeit/polling_rate) && (night_modus == true || m >= auto_shutdown/polling_rate) ) 
+        while (walking == false && i <= (Ausmach_zeit / polling_rate) && (night_modus == true || m >= auto_shutdown / polling_rate))
         {
           m = m + 1;
 
@@ -178,12 +175,12 @@ void loop() // alpha finished !
         m = m + 1;
         delay(polling_rate);
 
-        if (night_modus == false || m >= auto_shutdown/polling_rate)
+        if (night_modus == false || m >= auto_shutdown / polling_rate)
         {
           led_fall();
           schnelles_an_aus = false;
         }
-        if (i >= Ausmach_zeit/polling_rate)
+        if (i >= Ausmach_zeit / polling_rate)
         {
           led_fall();
           schnelles_an_aus = true;
