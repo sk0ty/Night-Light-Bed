@@ -7,7 +7,7 @@ bool schnelles_an_aus; // default = false. Falls Led-Bett an ist, 8s liegt => li
 
 const int sensor = 2;
 const int Anmach_zeit = 500;   // zuletzt 400
-const int Ausmach_zeit = 8000; //zuletzt 6000
+const int Ausmach_zeit = 12000; //zuletzt 8000, und war an sich immer zu kurz
 const int minimum_brightness = 128; // irgendwas zwischen 120-130
 const float e = 2.718;
 const long auto_shutdown = 900000; // 900s auto_shutdown, 900*1000ms
