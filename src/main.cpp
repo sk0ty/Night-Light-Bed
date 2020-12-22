@@ -23,7 +23,6 @@ int led_rise_fall_time = 1500; // getestet mit 1200 ist eig zu schnell
 
 int light_sensor_pin_0 = A0;
 
-int blabla;
 
 int light_sensor_value_0;
 
