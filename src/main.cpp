@@ -13,7 +13,7 @@ const float e = 2.718;
 const long auto_shutdown = 900000; // 900s auto_shutdown (15min), 900*1000ms
 const int polling_rate = 100; // Abfragrate der Sensoren (Druckplatte und Lichtsensor) in ms
 const int led_OUT = 5; // D5 = PWM-Pin
-
+int test2;
 int n;
 int i;
 long m; // siehe loop_mit_lichtsensoren
