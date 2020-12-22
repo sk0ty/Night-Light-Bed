@@ -14,6 +14,7 @@ const long auto_shutdown = 900000; // 900s auto_shutdown, 900*1000ms
 const int polling_rate = 100;
 const int led_OUT = 5; // D5 = PWM-Pin
 
+int test;
 int n;
 int i;
 long m; // siehe loop_mit_lichtsensoren
