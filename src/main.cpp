@@ -16,6 +16,7 @@ const int led_OUT = 5; // D5 = PWM-Pin
 int test2;
 int test;
 int var;
+int var2;
 int n;
 int i;
 long m; // siehe loop_mit_lichtsensoren
